@@ -81,19 +81,19 @@ class Window2(QMainWindow):
 ##podminky jsou zakomentovany
     def Run(self):
         # print("ahoj")
-        # if len(self.data_meric["y"])==0:
-        #     self.Error_msg("missing y label",
-        #                    "Missing y label.\n YOU MUST TO SELECT Y LABEL IN LEFT SELECTION")
-        # elif len(self.data_meric["selected_algor"])==0:
-        #     self.Error_msg("missing atribite in configure Menu algoritmus",
-        #                    "Missing y label.\n YOU MUST TO CLICT ON configure Menu algoritmus AND SELECT FROM LIST")
-        # elif self.data_path == False:
-        #     self.Error_msg("missing data path",
-        #                    "Missing data path.\n YOU MUST TO SELECT DATA PATH")
-        # elif self.save_path == False:
-        #     self.Error_msg("missing save path",
-        #                    "Missing save path.\n YOU MUST TO SELECT SAVE PATH")
-        # print("meric_data_load")
+        if len(self.data_meric["y"])==0:
+            self.Error_msg("missing y label",
+                           "Missing y label.\n YOU MUST TO SELECT Y LABEL IN LEFT SELECTION")
+        elif len(self.data_meric["selected_algor"])==0:
+            self.Error_msg("missing atribite in configure Menu algoritmus",
+                           "Missing y label.\n YOU MUST TO CLICT ON configure Menu algoritmus AND SELECT FROM LIST")
+        elif self.data_path == False:
+            self.Error_msg("missing data path",
+                           "Missing data path.\n YOU MUST TO SELECT DATA PATH")
+        elif self.save_path == False:
+            self.Error_msg("missing save path",
+                           "Missing save path.\n YOU MUST TO SELECT SAVE PATH")
+        print("meric_data_load")
         # text = "ahoj"
         self.window4()
         p = Analize(self,self.data_meric)

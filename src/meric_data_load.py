@@ -27,9 +27,11 @@ class Analize:
                 print(data)
                 print("dat")
                 print(dat)
+
                 self.algor = dat["selected_algor"]
                 self.data_path = dat["root_path_data"]
                 self.save_path = dat["save_path"]
+                self.save_path = self.save_path + "/name.csv"
                 #self.file_path = []
         #def Print_meric(self, data):
                 print("meric_aaaaaaa")
@@ -106,8 +108,10 @@ class Analize:
 
 
         def Save_file(self,string_save_id,data):
-                self.save_path = self.save_path + "name.csv"
-                with open("/home/hynek/Stažené/text.csv",'a+') as myfile:
+                #self.save_path = self.save_path + "name.csv"
+                #f =open(self.save_path,"w")
+                #f.close()
+                with open(self.save_path,'a+') as myfile:
                         #wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
                         #wr.writerow(string_save_id)
                         #wr.writerow(self.list)
@@ -116,3 +120,4 @@ class Analize:
                         myfile.write("\n")
                         myfile.write(data)
                         myfile.write("\n")
+                print(self.save_path)

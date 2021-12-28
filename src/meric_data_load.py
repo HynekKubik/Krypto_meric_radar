@@ -13,15 +13,19 @@ import os.path
 import time
 import csv
 import glob
-
+from Crypto.Cipher import AES
+from src.AesFile import *
 from os import walk
 from os import stat, remove
 # encryption/decryption buffer size - 64K
 # with stream-oriented functions, setting buffer size is mandatory
 
+#pridat další krypto operace!!!!!!!!
+#pokusit se o vlastní implementaci !!!!
+#nahrat na git!!!
 
 
-class Analize:
+class Measure:
 
         def __init__(self, data, dat):
                 print(data)
@@ -55,6 +59,24 @@ class Analize:
                                 self.SHA256()
                         if "MD5" in i:
                                 self.MD5()
+                        if "AES" in i:
+                                self.AES()
+
+
+        def AES(self):
+                for i in self.file_path:
+                        filename = i.split("/")[-1]
+                        size = str(os.path.getsize(i))
+                        start = time.time()
+                        menu(i)
+                        end = time.time()
+                        real_time = end - start
+                        print(end - start)
+                        string = "# " + filename + ";" + size + "[b]"
+                        # self.list[0].append("SHA256")
+                        # self.list[1].append(str(real_time))
+                        data = "AES; " + str(real_time)
+                        self.Save_file(string, data)
         def MD5(self):
                 for i in self.file_path:
                         filename = i.split("/")[-1]
@@ -74,6 +96,7 @@ class Analize:
                         # self.list[1].append(str(real_time))
                         data = "MD5; " + str(real_time)
                         self.Save_file(string, data)
+
         def SHA256(self):
                 #self.path = "/home/hynek/Stažené/landscape-of-mountains-and-forest-4k-vaporwave.jpg"
                 #print(self.path)

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import sys
 from src.meric_data_load import *
+from src.analyze import *
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QCheckBox
 #import calendar
@@ -35,7 +36,7 @@ class Window2(QMainWindow):
         #MainWindow.setFixedSize(300, 300):
         self.box = QCheckBox("TIME [s]", self)
         self.box.setGeometry(450, 30, 280, 80)
-        self.menuConfAlg = self.menuBar().addMenu('configure Menu algoritmus')
+        self.menuConfAlg = self.menuBar().addMenu('configure Menu algorithm')
         self.pushButton_BrowseData = QtWidgets.QPushButton("Browse..",self)
         self.pushButton_BrowseData.setEnabled(True)
         self.pushButton_BrowseData.setGeometry(QtCore.QRect(250, 130, 130, 30))
@@ -80,24 +81,48 @@ class Window2(QMainWindow):
 
 ##podminky jsou zakomentovany
     def Run(self):
-        # print("ahoj")
+        print("ahoj")
         if len(self.data_meric["y"])==0:
             self.Error_msg("missing y label",
                            "Missing y label.\n YOU MUST TO SELECT Y LABEL IN LEFT SELECTION")
         elif len(self.data_meric["selected_algor"])==0:
-            self.Error_msg("missing atribite in configure Menu algoritmus",
-                           "Missing y label.\n YOU MUST TO CLICT ON configure Menu algoritmus AND SELECT FROM LIST")
+            self.Error_msg("missing atribite in configure Menu algorithm",
+                           "Missing CRYPTO algoritm label.\n YOU MUST TO CLICT ON configure Menu algorithm AND SELECT FROM LIST")
         elif self.data_path == False:
             self.Error_msg("missing data path",
                            "Missing data path.\n YOU MUST TO SELECT DATA PATH")
         elif self.save_path == False:
             self.Error_msg("missing save path",
                            "Missing save path.\n YOU MUST TO SELECT SAVE PATH")
+        else:
+            self.Info_msg("Measurement will be started",
+                                    "Click ok.\n Please do not close next window")
+            self.window4()
+            p = Measure(self, self.data_meric)
+            self.End_msg("The end of measurement",
+                              "Now you can close all windows.")
         print("meric_data_load")
         # text = "ahoj"
-        self.window4()
-        p = Analize(self,self.data_meric)
 
+
+        self.window4()
+
+
+    def End_msg(self, text, mess):
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+        msg.setText(mess)
+        msg.setWindowTitle(text)
+        msg.setStandardButtons(QtWidgets.QMessageBox.Close)
+        msg.exec_()
+
+    def Info_msg(self, text, mess):
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+        msg.setText(mess)
+        msg.setWindowTitle(text)
+        #msg.setStandardButtons(QtWidgets.QMessageBox.Information)
+        msg.exec_()
 
     def Error_msg(self, text, mess):
         msg = QtWidgets.QMessageBox()
@@ -166,14 +191,46 @@ class Window3(QMainWindow):                           # <===
         super().__init__()
         self.setWindowTitle("Analyze")
         dlg = QtWidgets.QFileDialog()
-        dlg.setFileMode(QtWidgets.QFileDialog.Directory)
-        text = str(dlg.getExistingDirectory())
+        text = str(dlg.getOpenFileName(filter='Text files (*.csv)')[0])
+        #text = str(dlg.getExistingDirectory())
         print(text)
+        self.data_for_vizu = {"selected_algor": [], "vel": [], "name": [], "path": "", "time": []}
+        self.data_for_vizu["path"] = text
+        number = 0
+        #data_time = []
+        with open(text, "r") as file:
+            for line in file:
+                if "# " in line:
+                #if line.startswith("#"):
+                    tmp = line
+                    name = line.split(";")[0]
+                    vel = line.split(";")[1].split("\n")[0]
+                elif ";" in line and "# " in tmp:#tmp.startswith("#"):
+                    line = line.split(";")
+                    self.data_for_vizu["time"].append(line[1].split("\n")[0])
+                    self.data_for_vizu["vel"] .append(vel)
+                    self.data_for_vizu["selected_algor"].append(line[0])
+                    self.data_for_vizu["name"].append(name)
+                    number = number + 1
+                    tmp = " "
+        print(number)
+        print(self.data_for_vizu)
+        #analyze = Analyze(self, self.data_for_vizu)
+        self.setGeometry(300, 300, 320, 300)
+        self.pushButton_plot = QPushButton("Plot", self)
+        self.pushButton_plot.setGeometry(10, 10, 300, 80)
+        self.pushButton_meric1 = QPushButton("Measurement", self)
+        self.pushButton_meric1.setGeometry(10, 100, 300, 80)
+        self.pushButton_meric2 = QPushButton("Measurement", self)
+        self.pushButton_meric2.setGeometry(10, 190, 300, 80)
+
 
 class Window4(QMainWindow):                           # <===
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("RUNING")
+        self.setWindowTitle("MEASUREMENT RUNING")
+        self.setGeometry(300,300,300,300)
+
 
 
 #třída vytvarejici prvni menu pro výber analyze nebo meric

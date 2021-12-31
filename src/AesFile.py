@@ -30,9 +30,13 @@ class Encryptor:
     def encrypt_file(self, file_name):
         with open(file_name, 'rb') as fo:
             plaintext = fo.read()
+        size = str(os.path.getsize(file_name))
+        print(size)
         enc = self.encrypt(plaintext, self.key)
         with open(file_name + ".enc", 'wb') as fo:
             fo.write(enc)
+        size = str(os.path.getsize(file_name + ".enc"))
+        print(size)
         os.remove(file_name)
 
     def decrypt(self, ciphertext, key):
@@ -56,7 +60,7 @@ class Encryptor:
 
 
 #clear = lambda: os.system('cls')
-def menu(file):
+def menu_AES(file):
     key = b'[EX\xc8\xd5\xbfI{\xa2$\x05(\xd5\x18\xbf\xc0\x85)\x10nc\x94\x02)j\xdf\xcb\xc4\x94\x9d(\x9e'
     enc = Encryptor(key)
     enc.encrypt_file(str(file))
@@ -80,4 +84,5 @@ def menu(file):
     #     else:
     #         print("Please select a valid option!")
 
-#menu()
+# path = "/home/hynek/Stažené/landscape-of-mountains-and-forest-4k-vaporwave.jpg"
+# menu(path)

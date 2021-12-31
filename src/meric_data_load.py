@@ -15,6 +15,7 @@ import csv
 import glob
 from Crypto.Cipher import AES
 from src.AesFile import *
+from src.RsaFile import *
 from os import walk
 from os import stat, remove
 # encryption/decryption buffer size - 64K
@@ -61,14 +62,30 @@ class Measure:
                                 self.MD5()
                         if "AES" in i:
                                 self.AES()
+                        if "RSA" in i:
+                                self.AES()
 
+        def RSA(self):
+                for i in self.file_path:
+                        filename = i.split("/")[-1]
+                        size = str(os.path.getsize(i))
+                        start = time.time()
+                        menu_RSA(i)
+                        end = time.time()
+                        real_time = end - start
+                        print(end - start)
+                        string = "# " + filename + ";" + size + "[b]"
+                        # self.list[0].append("SHA256")
+                        # self.list[1].append(str(real_time))
+                        data = "RSA; " + str(real_time)
+                        self.Save_file(string, data)
 
         def AES(self):
                 for i in self.file_path:
                         filename = i.split("/")[-1]
                         size = str(os.path.getsize(i))
                         start = time.time()
-                        menu(i)
+                        menu_AES(i)
                         end = time.time()
                         real_time = end - start
                         print(end - start)

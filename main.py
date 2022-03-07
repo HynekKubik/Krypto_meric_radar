@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import sys
 from src.meric_data_load import *
-from src.analyze import *
+from src import analyze
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QCheckBox
 #import calendar
@@ -18,7 +18,7 @@ class Window2(QMainWindow):
         self.data = []
         self.y = []
         self.data_meric = {"selected_algor": [], "y": [], "root_path_data":"", "save_path":"" }
-        self.algoritmus = ["AES","RSA","SHA256","MD5"]
+        self.algoritmus = ["AES","RSA","SHA256","MD5","AES_basic_implamantion"]
         self.save_path = False
         self.data_path = False
         self.setWindowTitle("Meric")
@@ -216,14 +216,19 @@ class Window3(QMainWindow):                           # <===
         print(number)
         print(self.data_for_vizu)
         #analyze = Analyze(self, self.data_for_vizu)
-        self.setGeometry(300, 300, 320, 300)
+        self.setGeometry(300, 300, 320, 200)
         self.pushButton_plot = QPushButton("Plot", self)
         self.pushButton_plot.setGeometry(10, 10, 300, 80)
-        self.pushButton_meric1 = QPushButton("Measurement", self)
-        self.pushButton_meric1.setGeometry(10, 100, 300, 80)
-        self.pushButton_meric2 = QPushButton("Measurement", self)
-        self.pushButton_meric2.setGeometry(10, 190, 300, 80)
+        self.pushButton_table = QPushButton("Table", self)
+        self.pushButton_table.setGeometry(10, 100, 300, 80)
+        # self.pushButton_back = QPushButton("Back", self)
+        # self.pushButton_back.setGeometry(10, 190, 300, 80)
 
+        self.pushButton_plot.clicked.connect(self.plot)
+    def plot(self):
+        #p = Analyze(self,self.data_for_vizu)
+        self.samples_window = analyze.Window(ownData=self.data_for_vizu, main_menu_instance=self)
+        self.samples_window.show()
 
 class Window4(QMainWindow):                           # <===
     def __init__(self):

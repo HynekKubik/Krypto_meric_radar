@@ -16,6 +16,7 @@ import glob
 from Crypto.Cipher import AES
 from src.AesFile import *
 from src.RsaFile import *
+from src.AESCrypt import *
 from os import walk
 from os import stat, remove
 # encryption/decryption buffer size - 64K
@@ -56,14 +57,24 @@ class Measure:
 
         def Check_algo(self):
                 for i in self.algor:
-                        if "SHA256" in i:
+                        print(i)
+                        a = i.split(";")[0]
+                        if "SHA256" in a:
+                                print(a)
                                 self.SHA256()
-                        if "MD5" in i:
+                        if "MD5" in a:
+                                print(a)
                                 self.MD5()
-                        if "AES" in i:
+                        if a == "AES" :
+                                print(a)
                                 self.AES()
-                        if "RSA" in i:
-                                self.AES()
+                        if a == "AES_basic_implamantion":
+                                print(a)
+                                self.AESbasicimplamantion()
+                        if "RSA" in a:
+                                print(a)
+                                self.RSA()
+
 
         def RSA(self):
                 for i in self.file_path:
@@ -73,14 +84,14 @@ class Measure:
                         menu_RSA(i)
                         end = time.time()
                         real_time = end - start
-                        print(end - start)
+                        #print(end - start)
                         string = "# " + filename + ";" + size + "[b]"
                         # self.list[0].append("SHA256")
                         # self.list[1].append(str(real_time))
                         data = "RSA; " + str(real_time)
                         self.Save_file(string, data)
 
-        def AES(self):
+        def AESbasicimplamantion(self):
                 for i in self.file_path:
                         filename = i.split("/")[-1]
                         size = str(os.path.getsize(i))
@@ -89,6 +100,20 @@ class Measure:
                         end = time.time()
                         real_time = end - start
                         print(end - start)
+                        string = "# " + filename + ";" + size + "[b]"
+                        # self.list[0].append("SHA256")
+                        # self.list[1].append(str(real_time))
+                        data = "AES_basic_implamantion; " + str(real_time)
+                        self.Save_file(string, data)
+        def AES(self):
+                for i in self.file_path:
+                        filename = i.split("/")[-1]
+                        size = str(os.path.getsize(i))
+                        start = time.time()
+                        menu_AES_basic(i)
+                        end = time.time()
+                        real_time = end - start
+                       #print(end - start)
                         string = "# " + filename + ";" + size + "[b]"
                         # self.list[0].append("SHA256")
                         # self.list[1].append(str(real_time))
@@ -104,10 +129,10 @@ class Measure:
                                 for byte_block in iter(lambda: f.read(4096), b""):
                                         result.update(byte_block)
 
-                                print(result.hexdigest())
+                                #print(result.hexdigest())
                                 end = time.time()
                                 real_time = end - start
-                                print(end - start)
+                                #print(end - start)
                         string = "# " + filename + ";" + size + "[b]"
                         # self.list[0].append("SHA256")
                         # self.list[1].append(str(real_time))
@@ -120,7 +145,7 @@ class Measure:
                 # return "ahoj"
 
                 # filename = input("Enter the input file name: ")
-                print("sha")
+                #print("sha")
                 sha256_hash = hashlib.sha256()
 
                 # print("hello")
@@ -130,16 +155,16 @@ class Measure:
                         size = str(os.path.getsize(i))
                         start = time.time()
                         with open(i, "rb") as f:
-                                print("open file")
+                                #print("open file")
                                 # Read and update hash string value in blocks of 4K
                                 for byte_block in iter(lambda: f.read(4096), b""):
                                         sha256_hash.update(byte_block)
-                                print(sha256_hash.hexdigest())
+                                #print(sha256_hash.hexdigest())
                                 end = time.time()
                         # print(start)
                         # print("time")
                                 real_time = end - start
-                                print(end - start)
+                                #print(end - start)
                         string = "# " + filename + ";" + size + "[b]"
                         #self.list[0].append("SHA256")
                         #self.list[1].append(str(real_time))
@@ -160,4 +185,6 @@ class Measure:
                         myfile.write("\n")
                         myfile.write(data)
                         myfile.write("\n")
-                print(self.save_path)
+                        #print(data)
+                        #print(string_save_id)
+                #print(self.save_path)

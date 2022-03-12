@@ -17,6 +17,7 @@ from Crypto.Cipher import AES
 from src.AesFile import *
 from src.RsaFile import *
 from src.AESCrypt import *
+from src.rsa_aes_file import *
 from os import walk
 from os import stat, remove
 # encryption/decryption buffer size - 64K
@@ -33,16 +34,18 @@ class Measure:
                 print(data)
                 print("dat")
                 print(dat)
-
+                self.wc = True
                 self.algor = dat["selected_algor"]
                 self.data_path = dat["root_path_data"]
                 self.save_path = dat["save_path"]
-                self.save_path = self.save_path + "/name.csv"
+                self.save_path_name = self.save_path + "/name.csv"
                 #self.file_path = []
         #def Print_meric(self, data):
                 print("meric_aaaaaaa")
                 print(data)
                 self.Data_path_find()
+                self.Save_file("","")
+                self.folden()
                 self.Check_algo()
 
 
@@ -59,7 +62,7 @@ class Measure:
                 for i in self.algor:
                         print(i)
                         a = i.split(";")[0]
-                        if "SHA256" in a:
+                        if a == "SHA256":
                                 print(a)
                                 self.SHA256()
                         if "MD5" in a:
@@ -71,9 +74,12 @@ class Measure:
                         if a == "AES_basic_implamantion":
                                 print(a)
                                 self.AESbasicimplamantion()
-                        if "RSA" in a:
+                        if a == "RSA":
                                 print(a)
                                 self.RSA()
+                        if a == "ComboAESRSA":
+                                print(a)
+                                self.CombinationAesRsa()
 
 
         def RSA(self):
@@ -119,6 +125,23 @@ class Measure:
                         # self.list[1].append(str(real_time))
                         data = "AES; " + str(real_time)
                         self.Save_file(string, data)
+
+        def CombinationAesRsa(self):
+                for i in self.file_path:
+                        filename = i.split("/")[-1]
+                        size = str(os.path.getsize(i))
+                        start = time.time()
+                        menuAesRsa(i)
+                        end = time.time()
+                        real_time = end - start
+                       #print(end - start)
+                        string = "# " + filename + ";" + size + "[b]"
+                        # self.list[0].append("SHA256")
+                        # self.list[1].append(str(real_time))
+                        data = "AES_RSA_combo; " + str(real_time)
+                        self.Save_file(string, data)
+
+
         def MD5(self):
                 for i in self.file_path:
                         filename = i.split("/")[-1]
@@ -176,15 +199,62 @@ class Measure:
                 #self.save_path = self.save_path + "name.csv"
                 #f =open(self.save_path,"w")
                 #f.close()
-                with open(self.save_path,'a+') as myfile:
+                cpu = self.CpuName()
+                with open(self.save_path_name,'a+') as myfile:
                         #wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
                         #wr.writerow(string_save_id)
                         #wr.writerow(self.list)
                         #print("zapis")
-                        myfile.write(string_save_id)
-                        myfile.write("\n")
-                        myfile.write(data)
-                        myfile.write("\n")
+                        #myfile.write(cpu + "Start")
+                        #myfile.write("\n")
+                        if self.wc:
+                                myfile.write(cpu)
+                                myfile.write("\n")
+                                self.wc = False
+                        else:
+                                myfile.write(string_save_id)
+                                myfile.write("\n")
+                                myfile.write(data)
+                                myfile.write("\n")
+                        #myfile.write("\n")
                         #print(data)
                         #print(string_save_id)
                 #print(self.save_path)
+
+        def CpuName(self):
+                with open('/proc/cpuinfo') as f:
+                        for line in f:
+                                # Ignore the blank line separating the information between
+                                # details about two processing units
+                                if line.strip():
+                                        if line.rstrip('\n').startswith('model name'):
+                                                model_name = line.rstrip('\n').split(':')[1]
+                                                model = model_name
+                                                model = model.strip()
+                                                break
+                return model
+        def folden(self):
+                path = self.save_path + "/"
+                cpu = self.CpuName()
+                if not os.path.exists(path + cpu):
+                        os.mkdir(path + cpu)
+                        for i in self.algor:
+                                i= i.split(";")[0]
+                                if not os.path.exists(path + cpu +"/" + i):
+                                        os.mkdir(path + cpu +"/" + i)
+                                        with open(path + cpu +"/" + i + "/" + "name.csv",'a+') as f:
+                                                f.readline()
+                                else:
+                                        with open(path + cpu +"/" + i + "/" + "name.csv",'a+') as f:
+                                                f.readline()
+                else:
+                        for i in self.algor:
+                                i = i.split(";")[0]
+                                if not os.path.exists(path + cpu +"/" + i):
+                                        os.mkdir(path + cpu +"/" + i)
+                                        with open(path + cpu +"/" + i + "/" + "name.csv",'a+') as f:
+                                                f.write("uz je vytvoren")
+                                else:
+                                        with open(path + cpu +"/" + i + "/" + "name.csv",'a+') as f:
+                                                f.write("uz je vytvoren")
+

@@ -10,7 +10,7 @@ import os.path
 
 
 def generate_keys():
-    (pubKey, privKey) = rsa.newkeys(1024)
+    (pubKey, privKey) = rsa.newkeys(2048)
     key_file = get_path_keys()
     with open(key_file + '/keys/pubkey.pem', 'wb') as f:
         f.write(pubKey.save_pkcs1('PEM'))
@@ -104,7 +104,8 @@ def menu_RSA(filename):
         if plaintext != plaintext1:
             print("RSA faild")
 
-    #else:
+    else:
+        print("to big file")
 
 #menu("/home/hynek/Stažené/key.txt")
 #get_path_keys()

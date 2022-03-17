@@ -80,31 +80,9 @@ def file_mode(password, args):
     outfile = args.f if not args.o else args.o
     write_file(outfile, res)
 
-# def start():
-#     #password = get_random_string_password(8)
-#     password = "Hynas7jeboss"
-#     #password = b'[EX\xc8\xd5\xbfI{\xa2$\x05(\xd5\x18\xbf\xc0\x85)\x10nc\x94\x02)j\xdf\xcb\xc4\x94\x9d(\x9e'
-#     #password = password.decode()
-#     #print(password)
-#     #file = "/home/hynek/Dokumenty/aes_5.3/6.3/aes-master/test.txt"
-#    file = "/home/hynek/Obrázky/Snímek obrazovky pořízený 2021-12-01 21-10-21.png"
-#     num = 1
-#     data = get_file_content(file)
-#     if num == 1:
-#         res = decrypt(data, password)
-#     else:
-#         res = encrypt(data, password)
-#     outfile = file
-#     write_file(outfile, res)
 
 def menu_AES_basic(file):
     password = get_random_string_password(32)
-    #password = "Hynas7jeboss"
-    #password = b'[EX\xc8\xd5\xbfI{\xa2$\x05(\xd5\x18\xbf\xc0\x85)\x10nc\x94\x02)j\xdf\xcb\xc4\x94\x9d(\x9e'
-    #password = password.decode()
-    #print(password)
-    #file = "/home/hynek/Dokumenty/aes_5.3/6.3/aes-master/test.txt"
-    #file = "/home/hynek/Obrázky/Snímek obrazovky pořízený 2021-12-01 21-10-21.png"
     num = 1
     data = get_file_content(file)
 
@@ -123,20 +101,3 @@ def get_random_string_password(length):
     return password
 
 
-# parser = argparse.ArgumentParser(description='AESCrypt - A tool to encrypt and decrypt data using the AES algorithm.')
-# parser.add_argument('--passwd', type=str, help='The password to use, exists only to allow scripting. '
-#                                                'Should be left blank if used interactively.'
-#                                                'Even in scripts, the value of this flag should not be set directly'
-#                                                'but rather through, e.g. an environment variable.')
-# parser.add_argument('-f', type=str, help='Encrypts the content of the specified file, set the -o flag to specify a different output file.')
-# parser.add_argument('-o', type=str, help='A file to put the encrypted data into.')
-# parser.add_argument('-d', action='store_true', help='Use decrypt mode. Can be used when starting interactive mode as well')
-#
-# arguments = parser.parse_args()
-#
-# passwd = arguments.passwd if arguments.passwd else getpass.getpass("Password: ")
-# if not passwd:
-#     error("Password can not be blank!")
-#
-# interactive_mode(passwd) if not arguments.f else file_mode(passwd, arguments)
-#startone("/home/hynek/Obrázky/Snímek obrazovky pořízený 2022-03-02 12-10-20.png")

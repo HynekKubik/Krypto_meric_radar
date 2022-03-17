@@ -18,6 +18,7 @@ from src.AesFile import *
 from src.RsaFile import *
 from src.AESCrypt import *
 from src.rsa_aes_file import *
+from src.aes_low_pycrypto import *
 from os import walk
 from os import stat, remove
 # encryption/decryption buffer size - 64K
@@ -71,6 +72,9 @@ class Measure:
                         if a == "AES" :
                                 print(a)
                                 self.AES()
+                        if a == "AES_pyCrypto_low" :
+                                print(a)
+                                self.aes_low()
                         if a == "AES_basic_implamantion":
                                 print(a)
                                 self.AESbasicimplamantion()
@@ -81,7 +85,20 @@ class Measure:
                                 print(a)
                                 self.CombinationAesRsa()
 
-
+        def aes_low(self):
+                for i in self.file_path:
+                        filename = i.split("/")[-1]
+                        size = str(os.path.getsize(i))
+                        start = time.time()
+                        aes(i)
+                        end = time.time()
+                        real_time = end - start
+                        #print(end - start)
+                        string = "# " + filename + ";" + size + "[b]"
+                        # self.list[0].append("SHA256")
+                        # self.list[1].append(str(real_time))
+                        data = "AES_pyCrypto_low; " + str(real_time)
+                        self.Save_file(string, data)
         def RSA(self):
                 for i in self.file_path:
                         filename = i.split("/")[-1]

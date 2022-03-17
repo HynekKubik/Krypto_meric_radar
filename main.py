@@ -18,7 +18,7 @@ class Window2(QMainWindow):
         self.data = []
         self.y = []
         self.data_meric = {"selected_algor": [], "y": [], "root_path_data":"", "save_path":"" }
-        self.algoritmus = ["AES","RSA","SHA256","MD5","AES_basic_implamantion","ComboAESRSA"]
+        self.algoritmus = ["AES","RSA","SHA256","MD5","AES_basic_implamantion","ComboAESRSA", "AES_pyCrypto_low"]
         self.save_path = False
         self.data_path = False
         self.setWindowTitle("Meric")

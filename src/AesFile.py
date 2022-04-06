@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+import Crypto
+from Crypto import *
 from Crypto import Random
 from Crypto.Cipher import AES
 import os

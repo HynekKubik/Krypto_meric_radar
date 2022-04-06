@@ -19,6 +19,8 @@ from src.RsaFile import *
 from src.AESCrypt import *
 from src.rsa_aes_file import *
 from src.aes_low_pycrypto import *
+from src.DES3 import *
+from src.aes_base_impl import *
 from os import walk
 from os import stat, remove
 # encryption/decryption buffer size - 64K
@@ -66,6 +68,9 @@ class Measure:
                         if a == "SHA256":
                                 print(a)
                                 self.SHA256()
+                        if a == "3DES":
+                                print(a)
+                                self.DES3()
                         if "MD5" in a:
                                 print(a)
                                 self.MD5()
@@ -84,6 +89,38 @@ class Measure:
                         if a == "ComboAESRSA":
                                 print(a)
                                 self.CombinationAesRsa()
+                        if a == "AES_optimalizations":
+                                self.AES_optimalization()
+
+        def AES_optimalization(self):
+                for i in self.file_path:
+                        filename = i.split("/")[-1]
+                        size = str(os.path.getsize(i))
+                        start = time.time()
+                        menu_aes_base_impl(i)
+                        end = time.time()
+                        real_time = end - start
+                        #print(end - start)
+                        string = "# " + filename + ";" + size + "[b]"
+                        # self.list[0].append("SHA256")
+                        # self.list[1].append(str(real_time))
+                        data = "AES_optimalizations; " + str(real_time)
+                        self.Save_file(string, data)
+
+        def DES3(self):
+                for i in self.file_path:
+                        filename = i.split("/")[-1]
+                        size = str(os.path.getsize(i))
+                        start = time.time()
+                        menu_3_DES(i)
+                        end = time.time()
+                        real_time = end - start
+                        #print(end - start)
+                        string = "# " + filename + ";" + size + "[b]"
+                        # self.list[0].append("SHA256")
+                        # self.list[1].append(str(real_time))
+                        data = "3DES; " + str(real_time)
+                        self.Save_file(string, data)
 
         def aes_low(self):
                 for i in self.file_path:

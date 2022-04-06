@@ -1,3 +1,6 @@
+
+#!/usr/bin/env python3
+from Crypto import*
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP, AES
 from Crypto.Random import get_random_bytes

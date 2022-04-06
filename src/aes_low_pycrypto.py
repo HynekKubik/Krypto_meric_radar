@@ -7,8 +7,10 @@ def aes(file):
     with open(file, "rb") as f:
         data = f.read()
 
+    #data = b'secret data'
     key = get_random_bytes(16)
     cipher = AES.new(key, AES.MODE_EAX)
+    print(type(data))
     ciphertext, tag = cipher.encrypt_and_digest(data)
 
     file_out = open(file, "wb")
@@ -27,4 +29,4 @@ def aes(file):
         wr = f.write(data)
 
 
-
+#aes("/home/hynek/Dokumenty/encription.txt")

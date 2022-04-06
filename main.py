@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import sys
 from src.meric_data_load import *
+from src.meric_data_load import *
 from src import analyze
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QCheckBox
@@ -9,7 +10,15 @@ from PyQt5.QtWidgets import QCheckBox
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton,
                              QToolTip, QMessageBox, QLabel, QFrame, QLineEdit)
+
+#####v pripade erorru CMAC upravit radek
+###
+# pt = strxor(strxor(self._last_ct, bytes(partial)), self._k2)
+# https://symbiosisonlinepublishing.com/computer-science-technology/computerscience-information-technology32.php
 #trida vytvářející configurační okno pro merení kryptografických algoritmů
+## python3 main.py
+### blowfish
+### 
 class Window2(QMainWindow):
     # (300, 300, 570, 330)
     # (self.top, self.left, self.width, self.height)
@@ -18,7 +27,7 @@ class Window2(QMainWindow):
         self.data = []
         self.y = []
         self.data_meric = {"selected_algor": [], "y": [], "root_path_data":"", "save_path":"" }
-        self.algoritmus = ["AES","RSA","SHA256","MD5","AES_basic_implamantion","ComboAESRSA", "AES_pyCrypto_low"]
+        self.algoritmus = ["AES","AES_optimalizations","3DES","RSA","SHA256","MD5","AES_basic_implamantion","ComboAESRSA", "AES_pyCrypto_low"]
         self.save_path = False
         self.data_path = False
         self.setWindowTitle("Meric")

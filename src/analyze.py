@@ -47,6 +47,7 @@ class Window(QtWidgets.QDialog):
     def __init__(self, ownData=None, parent=None, main_menu_instance=None):
         super(Window, self).__init__(parent)
         algo = ownData["selected_algor"]
+        cpu = ownData["cpu"]
         self.ownData = ownData
         print(ownData)
         print(algo)
@@ -82,6 +83,7 @@ class Window(QtWidgets.QDialog):
         self.clearButton.clicked.connect(self.clearCanvas)
         self.combo_algo = QtWidgets.QComboBox(self)
         self.combo_algo.addItem("Choose algoritm")
+
         algo_one = []
         for i in algo:
             if not i in algo_one:
@@ -89,7 +91,22 @@ class Window(QtWidgets.QDialog):
         for i in algo_one:
             self.combo_algo.addItem(i)
 
-
+        self.combo_cpu = QtWidgets.QComboBox(self)
+        self.combo_cpu.addItem("Choose CPU")
+        CPU = []
+        for i in cpu:
+            if not i in CPU:
+                CPU.append(i)
+        if len(CPU)>1:
+            for i in CPU:
+                self.combo_cpu.addItem(i)
+                self.cpu = True
+        else:
+            self.cpu = False
+            self.combo_cpu.setEnabled(False)
+        print("cpu")
+        print(CPU)
+        print(cpu)
         self.bf = QtGui.QFont("Arial", 13, QtGui.QFont.Bold)
 
         self.mult = QtWidgets.QLineEdit("1")
@@ -116,6 +133,7 @@ class Window(QtWidgets.QDialog):
 
         self.addButton.setFixedWidth(130)
         hlayout2.addWidget(self.combo_algo)
+        hlayout2.addWidget(self.combo_cpu)
         hlayout2.addWidget(self.addButton)
         hlayout2.setAlignment(QtCore.Qt.AlignRight)
 
@@ -220,11 +238,11 @@ class Window(QtWidgets.QDialog):
 
         self.canvas.draw()
 
-#novee
-#pico tady to dodelej jinak te ondrej povesi za gule!!!!!!!!
-#    !!!!!!!!
+
     def addAlgoToPlot(self):
         parameter = self.combo_algo.currentText()
+        if self.cpu:
+            cpu = self.combo_cpu.currentText()
         path = str(self.ownData["path"])
         data = []
         algo = []
@@ -233,6 +251,9 @@ class Window(QtWidgets.QDialog):
         if csv_file:
             reading = True
         for line in csv_file:
+            if self.cpu and cpu in line:
+                cpu_ = line.split("cpuinfo ")[1]
+                print(cpu_)
             if "#" in line and reading:
                 str_prev = line
                 size = line.split(";")[-1].strip("\n")
@@ -243,15 +264,16 @@ class Window(QtWidgets.QDialog):
                     time = float(line[1].strip("\n"))
                     tup = (size, time)
                     data.append(tup)
-
+            else:
+                cpu_=""
                 #algo.append(line[0])
 
-        algo.append(parameter)
+        algo.append(parameter + "" + cpu_)
 
         csv_file.close()
         print("-----------------------------------------")
         print(data)
-
+        print(algo)
         data = sorted(data, key=lambda tup: tup[0])
         print(data)
         print("--------------------------------")
@@ -267,7 +289,7 @@ class Window(QtWidgets.QDialog):
         legenda = self.legenda
         self.n = len(self.data)
         print(self.n)
-        self.xlab = "size [b]"
+        self.xlab = "size [B]"
         self.ylab = "time [s]"
 
         for m in range(0, self.n):

@@ -1,6 +1,7 @@
+#!/usr/bin/env python3
 import random
 import string
-
+import time
 
 
 ##### https://sites.math.washington.edu/~morrow/336_12/papers/juan.pdf
@@ -134,23 +135,22 @@ def sub_bytes(state, inv=False):
     return state
 
 
-def shift_rows(state, inv=False):
+
+def shift_rows(state):
     count = 1
-
-    if inv == False:
-        for i in range(1, nb):
-            state[i] = left_shift(state[i], count)
-            count += 1
-    else:
-        for i in range(1, nb):
-            state[i] = right_shift(state[i], count)
-            count += 1
-
+    for i in range(1, nb):
+        state[i] = left_shift(state[i], count)
+        count += 1
     return state
 
+def inv_shift_rows(state):
+    count = 1
+    for i in range(1, nb):
+        state[i] = right_shift(state[i], count)
+        count += 1
+    return state
 
 def left_shift(array, count):
-
     res = array[:]
     for i in range(count):
         temp = res[1:]
@@ -161,7 +161,6 @@ def left_shift(array, count):
 
 
 def right_shift(array, count):
-
     res = array[:]
     for i in range(count):
         tmp = res[:-1]
@@ -171,26 +170,22 @@ def right_shift(array, count):
     return res
 
 
-def mix_columns(state, inv=False):
-    print(state)
+def inv_mix_columns(state):
     for i in range(nb):
+        state[0][i] = d_inv_mix_0E(state[0][i]) ^ d_inv_mix_0B(state[1][i]) ^ d_inv_mix_0D(state[2][i]) ^ d_inv_mix_09(state[3][i])
+        state[1][i] = d_inv_mix_09(state[0][i]) ^ d_inv_mix_0E(state[1][i]) ^ d_inv_mix_0B(state[2][i]) ^ d_inv_mix_0D(state[3][i])
+        state[2][i] = d_inv_mix_0D(state[0][i]) ^ d_inv_mix_09(state[1][i]) ^ d_inv_mix_0E(state[2][i]) ^ d_inv_mix_0B(state[3][i])
+        state[3][i] = d_inv_mix_0B(state[0][i]) ^ d_inv_mix_0D(state[1][i]) ^ d_inv_mix_09(state[2][i]) ^ d_inv_mix_0E(state[3][i])
+    return state
 
-        if inv == False:
-            s0 = e_mix_0x02(state[0][i]) ^ e_mix_0x03(state[1][i]) ^ state[2][i] ^ state[3][i]
-            s1 = state[0][i] ^ e_mix_0x02(state[1][i]) ^ e_mix_0x03(state[2][i]) ^ state[3][i]
-            s2 = state[0][i] ^ state[1][i] ^ e_mix_0x02(state[2][i]) ^ e_mix_0x03(state[3][i])
-            s3 = e_mix_0x03(state[0][i]) ^ state[1][i] ^ state[2][i] ^ e_mix_0x02(state[3][i])
-        else:
-            s0 = d_inv_mix_0E(state[0][i]) ^ d_inv_mix_0B(state[1][i]) ^ d_inv_mix_0D(state[2][i]) ^ d_inv_mix_09(state[3][i])
-            s1 = d_inv_mix_09(state[0][i]) ^ d_inv_mix_0E(state[1][i]) ^ d_inv_mix_0B(state[2][i]) ^ d_inv_mix_0D(state[3][i])
-            s2 = d_inv_mix_0D(state[0][i]) ^ d_inv_mix_09(state[1][i]) ^ d_inv_mix_0E(state[2][i]) ^ d_inv_mix_0B(state[3][i])
-            s3 = d_inv_mix_0B(state[0][i]) ^ d_inv_mix_0D(state[1][i]) ^ d_inv_mix_09(state[2][i]) ^ d_inv_mix_0E(state[3][i])
 
-        state[0][i] = s0
-        state[1][i] = s1
-        state[2][i] = s2
-        state[3][i] = s3
-    # print(state)
+def mix_columns(state):
+    #print(state)
+    for i in range(nb):
+        state[0][i] = e_mix_0x02(state[0][i]) ^ e_mix_0x03(state[1][i]) ^ state[2][i] ^ state[3][i]
+        state[1][i] = state[0][i] ^ e_mix_0x02(state[1][i]) ^ e_mix_0x03(state[2][i]) ^ state[3][i]
+        state[2][i] = state[0][i] ^ state[1][i] ^ e_mix_0x02(state[2][i]) ^ e_mix_0x03(state[3][i])
+        state[3][i] = e_mix_0x03(state[0][i]) ^ state[1][i] ^ state[2][i] ^ e_mix_0x02(state[3][i])
     return state
 
 def e_mix_0x02(num):
@@ -281,14 +276,17 @@ def decrypt(cipher, key):
 
     round = nr - 1
     while round >= 1:
-        state = shift_rows(state, inv=True)
+        #state = shift_rows(state, inv=True)
+        state = inv_shift_rows(state)
         state = sub_bytes(state, inv=True)
         state = add_round_key(state, keys, round)
-        state = mix_columns(state, inv=True)
+        #state = mix_columns(state, inv=True)
+        state = inv_mix_columns(state)
 
         round -= 1
 
-    state = shift_rows(state, inv=True)
+    #state = shift_rows(state, inv=True)
+    state = inv_shift_rows(state)
     state = sub_bytes(state, inv=True)
     state = add_round_key(state, keys, round)
 
@@ -312,7 +310,12 @@ def write_data(file,data):
 
 
 def menu_aes_base_impl(file):
+    start = time.time()
     key = get_random_string_password(16)
+    end = time.time()
+    real_time = end - start
+    print("key" + str(real_time))
+    start = time.time()
     crypted_data = []
     temp = []
     data = load_data(file)
@@ -322,8 +325,14 @@ def menu_aes_base_impl(file):
             crypted_part = encrypt(temp, key)
             crypted_data.extend(crypted_part)
             del temp[:]
+
+
+    end = time.time()
+    real_time = end - start
+    print("enc" + str(real_time))
     write_data(file, crypted_data)
 
+    start = time.time()
     data = load_data(file)
     decrypted_data = []
     temp = []
@@ -333,10 +342,15 @@ def menu_aes_base_impl(file):
             decrypted_part = decrypt(temp, key)
             decrypted_data.extend(decrypted_part)
             del temp[:]
+    end = time.time()
+    real_time = end - start
+    print("enc" + str(real_time))
+    write_data(file, crypted_data)
     write_data(file, decrypted_data)
 
 
-menu_aes_base_impl("/home/hynek/Obrázky/pokus/pokus/1.png")
+#menu_aes_base_impl("/home/hynek/Obrázky/pokus/pokus/1.png")
+
 
 
 

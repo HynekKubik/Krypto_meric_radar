@@ -101,7 +101,7 @@ class Measure:
                         end = time.time()
                         real_time = end - start
                         #print(end - start)
-                        string = "# " + filename + ";" + size + "[b]"
+                        string = "# " + filename + ";" + size + "[B]"
                         # self.list[0].append("SHA256")
                         # self.list[1].append(str(real_time))
                         data = "AES_optimalizations; " + str(real_time)
@@ -116,7 +116,7 @@ class Measure:
                         end = time.time()
                         real_time = end - start
                         #print(end - start)
-                        string = "# " + filename + ";" + size + "[b]"
+                        string = "# " + filename + ";" + size + "[B]"
                         # self.list[0].append("SHA256")
                         # self.list[1].append(str(real_time))
                         data = "3DES; " + str(real_time)
@@ -131,7 +131,7 @@ class Measure:
                         end = time.time()
                         real_time = end - start
                         #print(end - start)
-                        string = "# " + filename + ";" + size + "[b]"
+                        string = "# " + filename + ";" + size + "[B]"
                         # self.list[0].append("SHA256")
                         # self.list[1].append(str(real_time))
                         data = "AES_pyCrypto_low; " + str(real_time)
@@ -145,7 +145,7 @@ class Measure:
                         end = time.time()
                         real_time = end - start
                         #print(end - start)
-                        string = "# " + filename + ";" + size + "[b]"
+                        string = "# " + filename + ";" + size + "[B]"
                         # self.list[0].append("SHA256")
                         # self.list[1].append(str(real_time))
                         data = "RSA; " + str(real_time)
@@ -160,7 +160,7 @@ class Measure:
                         end = time.time()
                         real_time = end - start
                         print(end - start)
-                        string = "# " + filename + ";" + size + "[b]"
+                        string = "# " + filename + ";" + size + "[B]"
                         # self.list[0].append("SHA256")
                         # self.list[1].append(str(real_time))
                         data = "AES_basic_implamantion; " + str(real_time)
@@ -174,7 +174,7 @@ class Measure:
                         end = time.time()
                         real_time = end - start
                        #print(end - start)
-                        string = "# " + filename + ";" + size + "[b]"
+                        string = "# " + filename + ";" + size + "[B]"
                         # self.list[0].append("SHA256")
                         # self.list[1].append(str(real_time))
                         data = "AES; " + str(real_time)
@@ -189,7 +189,7 @@ class Measure:
                         end = time.time()
                         real_time = end - start
                        #print(end - start)
-                        string = "# " + filename + ";" + size + "[b]"
+                        string = "# " + filename + ";" + size + "[B]"
                         # self.list[0].append("SHA256")
                         # self.list[1].append(str(real_time))
                         data = "AES_RSA_combo; " + str(real_time)
@@ -210,7 +210,7 @@ class Measure:
                                 end = time.time()
                                 real_time = end - start
                                 #print(end - start)
-                        string = "# " + filename + ";" + size + "[b]"
+                        string = "# " + filename + ";" + size + "[B]"
                         # self.list[0].append("SHA256")
                         # self.list[1].append(str(real_time))
                         data = "MD5; " + str(real_time)
@@ -242,7 +242,7 @@ class Measure:
                         # print("time")
                                 real_time = end - start
                                 #print(end - start)
-                        string = "# " + filename + ";" + size + "[b]"
+                        string = "# " + filename + ";" + size + "[B]"
                         #self.list[0].append("SHA256")
                         #self.list[1].append(str(real_time))
                         data = "SHA256; " + str(real_time)
@@ -285,6 +285,7 @@ class Measure:
                                                 model_name = line.rstrip('\n').split(':')[1]
                                                 model = model_name
                                                 model = model.strip()
+                                                model = " cpuinfo " + model
                                                 break
                 return model
         def folden(self):

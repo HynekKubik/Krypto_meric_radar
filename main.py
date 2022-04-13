@@ -4,6 +4,7 @@ import sys
 from src.meric_data_load import *
 from src.meric_data_load import *
 from src import analyze
+from src import average_s_b
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QCheckBox
 #import calendar
@@ -203,13 +204,17 @@ class Window3(QMainWindow):                           # <===
         text = str(dlg.getOpenFileName(filter='Text files (*.csv)')[0])
         #text = str(dlg.getExistingDirectory())
         print(text)
-        self.data_for_vizu = {"selected_algor": [], "vel": [], "name": [], "path": "", "time": []}
+        self.data_for_vizu = {"selected_algor": [], "vel": [], "name": [], "path": "", "time": [], "cpu": []}
         self.data_for_vizu["path"] = text
         number = 0
         #data_time = []
         with open(text, "r") as file:
             for line in file:
-                if "# " in line:
+                if "cpuinfo" in line:
+                    line = line.split("cpuinfo ")[1]
+                    self.data_for_vizu["cpu"].append(line.split("\n")[0])
+
+                if "# " in line and not "cpu" in line:
                 #if line.startswith("#"):
                     tmp = line
                     name = line.split(";")[0]
@@ -228,16 +233,20 @@ class Window3(QMainWindow):                           # <===
         self.setGeometry(300, 300, 320, 200)
         self.pushButton_plot = QPushButton("Plot", self)
         self.pushButton_plot.setGeometry(10, 10, 300, 80)
-        self.pushButton_table = QPushButton("Table", self)
-        self.pushButton_table.setGeometry(10, 100, 300, 80)
+        self.pushButton_bar_avrg = QPushButton("Average byte per secund", self)
+        self.pushButton_bar_avrg.setGeometry(10, 100, 300, 80)
         # self.pushButton_back = QPushButton("Back", self)
         # self.pushButton_back.setGeometry(10, 190, 300, 80)
 
         self.pushButton_plot.clicked.connect(self.plot)
+        self.pushButton_bar_avrg.clicked.connect(self.average)
     def plot(self):
         #p = Analyze(self,self.data_for_vizu)
-        self.samples_window = analyze.Window(ownData=self.data_for_vizu, main_menu_instance=self)
-        self.samples_window.show()
+        self.plot_window = analyze.Window(ownData=self.data_for_vizu, main_menu_instance=self)
+        self.plot_window.show()
+    def average(self):
+        self.bar_plot_window = average_s_b.Window(ownData=self.data_for_vizu, main_menu_instance=self)
+        self.bar_plot_window.show()
 
 class Window4(QMainWindow):                           # <===
     def __init__(self):

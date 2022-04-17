@@ -55,7 +55,7 @@ class Window(QtWidgets.QDialog):
         # a figure instance to plot on
         self.figure = Figure()
         # self.ax = self.figure.add_subplot(111)
-        self.ax = self.figure.add_axes([0.1, 0.25, 0.8, 0.7])  # left,bottom edge, width, height
+        self.ax = self.figure.add_axes([0.05, 0.16, 0.6, 0.8])  # left,bottom edge, width, height
         self.use_logscaleX = False
         self.use_logscaleY = False
         self.setWindowTitle("Plot")
@@ -251,8 +251,9 @@ class Window(QtWidgets.QDialog):
         if csv_file:
             reading = True
         for line in csv_file:
-            if self.cpu and cpu in line:
-                cpu_ = line.split("cpuinfo ")[1]
+            if "cpuinfo " in line:
+                cpu_ = line.split("cpuinfo ")[1].strip("\n")
+                print("cpuinfo")
                 print(cpu_)
             if "#" in line and reading:
                 str_prev = line
@@ -264,11 +265,11 @@ class Window(QtWidgets.QDialog):
                     time = float(line[1].strip("\n"))
                     tup = (size, time)
                     data.append(tup)
-            else:
-                cpu_=""
-                #algo.append(line[0])
 
-        algo.append(parameter + "" + cpu_)
+                #algo.append(line[0])
+        # print("cpu")
+        # print(cpu_)
+        algo.append(parameter + " " + cpu_)
 
         csv_file.close()
         print("-----------------------------------------")

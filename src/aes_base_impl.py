@@ -135,22 +135,23 @@ def sub_bytes(state, inv=False):
     return state
 
 
-
-def shift_rows(state):
+def shift_rows(state, inv=False):
     count = 1
-    for i in range(1, nb):
-        state[i] = left_shift(state[i], count)
-        count += 1
+
+    if inv == False:
+        for i in range(1, nb):
+            state[i] = left_shift(state[i], count)
+            count += 1
+    else:
+        for i in range(1, nb):
+            state[i] = right_shift(state[i], count)
+            count += 1
+
     return state
 
-def inv_shift_rows(state):
-    count = 1
-    for i in range(1, nb):
-        state[i] = right_shift(state[i], count)
-        count += 1
-    return state
 
 def left_shift(array, count):
+
     res = array[:]
     for i in range(count):
         temp = res[1:]
@@ -161,6 +162,7 @@ def left_shift(array, count):
 
 
 def right_shift(array, count):
+
     res = array[:]
     for i in range(count):
         tmp = res[:-1]
@@ -170,22 +172,26 @@ def right_shift(array, count):
     return res
 
 
-def inv_mix_columns(state):
-    for i in range(nb):
-        state[0][i] = d_inv_mix_0E(state[0][i]) ^ d_inv_mix_0B(state[1][i]) ^ d_inv_mix_0D(state[2][i]) ^ d_inv_mix_09(state[3][i])
-        state[1][i] = d_inv_mix_09(state[0][i]) ^ d_inv_mix_0E(state[1][i]) ^ d_inv_mix_0B(state[2][i]) ^ d_inv_mix_0D(state[3][i])
-        state[2][i] = d_inv_mix_0D(state[0][i]) ^ d_inv_mix_09(state[1][i]) ^ d_inv_mix_0E(state[2][i]) ^ d_inv_mix_0B(state[3][i])
-        state[3][i] = d_inv_mix_0B(state[0][i]) ^ d_inv_mix_0D(state[1][i]) ^ d_inv_mix_09(state[2][i]) ^ d_inv_mix_0E(state[3][i])
-    return state
-
-
-def mix_columns(state):
+def mix_columns(state, inv=False):
     #print(state)
     for i in range(nb):
-        state[0][i] = e_mix_0x02(state[0][i]) ^ e_mix_0x03(state[1][i]) ^ state[2][i] ^ state[3][i]
-        state[1][i] = state[0][i] ^ e_mix_0x02(state[1][i]) ^ e_mix_0x03(state[2][i]) ^ state[3][i]
-        state[2][i] = state[0][i] ^ state[1][i] ^ e_mix_0x02(state[2][i]) ^ e_mix_0x03(state[3][i])
-        state[3][i] = e_mix_0x03(state[0][i]) ^ state[1][i] ^ state[2][i] ^ e_mix_0x02(state[3][i])
+
+        if inv == False:
+            s0 = e_mix_0x02(state[0][i]) ^ e_mix_0x03(state[1][i]) ^ state[2][i] ^ state[3][i]
+            s1 = state[0][i] ^ e_mix_0x02(state[1][i]) ^ e_mix_0x03(state[2][i]) ^ state[3][i]
+            s2 = state[0][i] ^ state[1][i] ^ e_mix_0x02(state[2][i]) ^ e_mix_0x03(state[3][i])
+            s3 = e_mix_0x03(state[0][i]) ^ state[1][i] ^ state[2][i] ^ e_mix_0x02(state[3][i])
+        else:
+            s0 = d_inv_mix_0E(state[0][i]) ^ d_inv_mix_0B(state[1][i]) ^ d_inv_mix_0D(state[2][i]) ^ d_inv_mix_09(state[3][i])
+            s1 = d_inv_mix_09(state[0][i]) ^ d_inv_mix_0E(state[1][i]) ^ d_inv_mix_0B(state[2][i]) ^ d_inv_mix_0D(state[3][i])
+            s2 = d_inv_mix_0D(state[0][i]) ^ d_inv_mix_09(state[1][i]) ^ d_inv_mix_0E(state[2][i]) ^ d_inv_mix_0B(state[3][i])
+            s3 = d_inv_mix_0B(state[0][i]) ^ d_inv_mix_0D(state[1][i]) ^ d_inv_mix_09(state[2][i]) ^ d_inv_mix_0E(state[3][i])
+
+        state[0][i] = s0
+        state[1][i] = s1
+        state[2][i] = s2
+        state[3][i] = s3
+    # print(state)
     return state
 
 def e_mix_0x02(num):
@@ -276,17 +282,14 @@ def decrypt(cipher, key):
 
     round = nr - 1
     while round >= 1:
-        #state = shift_rows(state, inv=True)
-        state = inv_shift_rows(state)
+        state = shift_rows(state, inv=True)
         state = sub_bytes(state, inv=True)
         state = add_round_key(state, keys, round)
-        #state = mix_columns(state, inv=True)
-        state = inv_mix_columns(state)
+        state = mix_columns(state, inv=True)
 
         round -= 1
 
-    #state = shift_rows(state, inv=True)
-    state = inv_shift_rows(state)
+    state = shift_rows(state, inv=True)
     state = sub_bytes(state, inv=True)
     state = add_round_key(state, keys, round)
 
@@ -309,7 +312,7 @@ def write_data(file,data):
         ff.write(bytes(data))
 
 
-def menu_aes_base_impl(file):
+def menu_aes_base_impl_py(file):
     start = time.time()
     key = get_random_string_password(16)
     end = time.time()
@@ -349,8 +352,7 @@ def menu_aes_base_impl(file):
     write_data(file, decrypted_data)
 
 
-#menu_aes_base_impl("/home/hynek/Obrázky/pokus/pokus/1.png")
-
+#menu_aes_base_impl_py("/home/hynek/Obrázky/pokus/pokus/1.png")
 
 
 

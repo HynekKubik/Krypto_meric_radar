@@ -5,6 +5,7 @@ from src.meric_data_load import *
 from src.meric_data_load import *
 from src import analyze
 from src import average_s_b
+from src import avg_bytes_per_sec_algoritmus
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QCheckBox
 #import calendar
@@ -91,7 +92,7 @@ class Window2(QMainWindow):
 
 ##podminky jsou zakomentovany
     def Run(self):
-        print("ahoj")
+        #print("ahoj")
         if len(self.data_meric["y"])==0:
             self.Error_msg("missing y label",
                            "Missing y label.\n YOU MUST TO SELECT Y LABEL IN LEFT SELECTION")
@@ -181,7 +182,7 @@ class Window2(QMainWindow):
                     #self.data.remove(i)
                     self.data_meric["selected_algor"].remove(i)
         #print(self.data)
-        print(self.data_meric)
+        #print(self.data_meric)
 #funkce pridavajici do dic self.data_meric zavislosti jako napr cas
     def clickBox(self, state):
 
@@ -190,8 +191,7 @@ class Window2(QMainWindow):
                 #self.y.append(self.box.text())
                 self.data_meric["y"].append(self.box.text())
                 self.show()
-        else:
-            print("ne")
+
 
         #print(self.data)
         print(self.data_meric)
@@ -212,7 +212,8 @@ class Window3(QMainWindow):                           # <===
             for line in file:
                 if "cpuinfo" in line:
                     line = line.split("cpuinfo ")[1]
-                    self.data_for_vizu["cpu"].append(line.split("\n")[0])
+                    if not line.split("\n")[0] in self.data_for_vizu["cpu"]:
+                        self.data_for_vizu["cpu"].append(line.split("\n")[0])
 
                 if "# " in line and not "cpu" in line:
                 #if line.startswith("#"):
@@ -227,19 +228,22 @@ class Window3(QMainWindow):                           # <===
                     self.data_for_vizu["name"].append(name)
                     number = number + 1
                     tmp = " "
-        print(number)
-        print(self.data_for_vizu)
+        #print(number)
+        #print(self.data_for_vizu)
         #analyze = Analyze(self, self.data_for_vizu)
-        self.setGeometry(300, 300, 320, 200)
+        self.setGeometry(300, 300, 320, 280)
         self.pushButton_plot = QPushButton("Plot", self)
         self.pushButton_plot.setGeometry(10, 10, 300, 80)
         self.pushButton_bar_avrg = QPushButton("Average byte per secund", self)
         self.pushButton_bar_avrg.setGeometry(10, 100, 300, 80)
+        self.pushButton_bar_avrg_algo = QPushButton("Average ", self)
+        self.pushButton_bar_avrg_algo.setGeometry(10, 190, 300, 80)
         # self.pushButton_back = QPushButton("Back", self)
         # self.pushButton_back.setGeometry(10, 190, 300, 80)
 
         self.pushButton_plot.clicked.connect(self.plot)
         self.pushButton_bar_avrg.clicked.connect(self.average)
+        self.pushButton_bar_avrg_algo.clicked.connect(self.average_algor)
     def plot(self):
         #p = Analyze(self,self.data_for_vizu)
         self.plot_window = analyze.Window(ownData=self.data_for_vizu, main_menu_instance=self)
@@ -247,6 +251,9 @@ class Window3(QMainWindow):                           # <===
     def average(self):
         self.bar_plot_window = average_s_b.Window(ownData=self.data_for_vizu, main_menu_instance=self)
         self.bar_plot_window.show()
+    def average_algor(self):
+        self.bar_plot_window_algor = avg_bytes_per_sec_algoritmus.Window(ownData=self.data_for_vizu, main_menu_instance=self)
+        self.bar_plot_window_algor.show()
 
 class Window4(QMainWindow):                           # <===
     def __init__(self):

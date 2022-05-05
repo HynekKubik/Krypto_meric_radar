@@ -35,9 +35,9 @@ class Encryptor:
         size = str(os.path.getsize(file_name))
         print(size)
         enc = self.encrypt(plaintext, self.key)
-        with open(file_name + ".enc", 'wb') as fo:
+        with open(file_name, 'wb') as fo:
             fo.write(enc)
-        size = str(os.path.getsize(file_name + ".enc"))
+        #size = str(os.path.getsize(file_name + ".enc"))
         print(size)
         os.remove(file_name)
 
@@ -51,7 +51,7 @@ class Encryptor:
         with open(file_name, 'rb') as fo:
             ciphertext = fo.read()
         dec = self.decrypt(ciphertext, self.key)
-        with open(file_name[:-4], 'wb') as fo:
+        with open(file_name, 'wb') as fo:
             fo.write(dec)
         os.remove(file_name)
 
@@ -66,7 +66,7 @@ def menu_AES(file):
     key = b'[EX\xc8\xd5\xbfI{\xa2$\x05(\xd5\x18\xbf\xc0\x85)\x10nc\x94\x02)j\xdf\xcb\xc4\x94\x9d(\x9e'
     enc = Encryptor(key)
     enc.encrypt_file(str(file))
-    file = file + ".enc"
+    #file = file + ".enc"
     enc.decrypt_file(str(file))
     # while True:
     #     #clear()

@@ -240,9 +240,12 @@ class Window(QtWidgets.QDialog):
 
 
     def addAlgoToPlot(self):
+
         parameter = self.combo_algo.currentText()
         if self.cpu:
             cpu = self.combo_cpu.currentText()
+        else:
+            cpu = "cpuinfo "
         path = str(self.ownData["path"])
         data = []
         algo = []
@@ -251,15 +254,18 @@ class Window(QtWidgets.QDialog):
         if csv_file:
             reading = True
         for line in csv_file:
-            if "cpuinfo " in line:
+            if "cpuinfo " in line and cpu in line:
                 cpu_ = line.split("cpuinfo ")[1].strip("\n")
                 print("cpuinfo")
                 print(cpu_)
-            if "#" in line and reading:
+                cpu_bool = True
+            if "cpuinfo " in line and not cpu in line:
+                cpu_bool = False
+            if cpu_bool and "#" in line and reading:
                 str_prev = line
                 size = line.split(";")[-1].strip("\n")
                 size = float(size.split("[")[0])
-            if parameter in line and "#" in str_prev:
+            if cpu_bool and parameter in line and "#" in str_prev:
                 line = line.split(";")
                 if parameter == line[0]:
                     time = float(line[1].strip("\n"))
@@ -269,7 +275,7 @@ class Window(QtWidgets.QDialog):
                 #algo.append(line[0])
         # print("cpu")
         # print(cpu_)
-        algo.append(parameter + " " + cpu_)
+        algo.append(parameter + " " + cpu)
 
         csv_file.close()
         print("-----------------------------------------")

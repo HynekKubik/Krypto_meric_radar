@@ -22,6 +22,7 @@ from src.aes_low_pycrypto import *
 from src.DES3 import *
 from src.aes_base_impl import *
 from src.aes_c.aes import *
+from PIL import Image, ImageFont, ImageDraw
 from os import walk
 from os import stat, remove
 # encryption/decryption buffer size - 64K
@@ -35,8 +36,9 @@ from os import stat, remove
 class Measure:
 
         def __init__(self, data, dat):
+                #print("merime")
                 print(data)
-                print("dat")
+                #print("dat")
                 print(dat)
                 self.wc = True
                 self.algor = dat["selected_algor"]
@@ -45,8 +47,11 @@ class Measure:
                 self.save_path_name = self.save_path + "/name.csv"
                 #self.file_path = []
         #def Print_meric(self, data):
-                print("meric_aaaaaaa")
-                print(data)
+                #print("meric_aaaaaaa")
+                #print(data)
+                #print(self.algor)
+                #print(self.data_path)
+                #print(self.save_path)
                 self.Data_path_find()
                 self.Save_file("","")
                 self.folden()
@@ -64,7 +69,7 @@ class Measure:
 
         def Check_algo(self):
                 for i in self.algor:
-                        print(i)
+                        #print(i)
                         a = i.split(";")[0]
                         if a == "SHA256":
                                 print(a)
@@ -272,7 +277,10 @@ class Measure:
                 #self.save_path = self.save_path + "name.csv"
                 #f =open(self.save_path,"w")
                 #f.close()
+                #self.wc = True
                 cpu = self.CpuName()
+                #with open("/home/hynek/Dokumenty/vysledkytest/names.csv",'a+')as mf:
+                 #       print("ahoj")
                 with open(self.save_path_name,'a+') as myfile:
                         #wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
                         #wr.writerow(string_save_id)
@@ -331,4 +339,20 @@ class Measure:
                                 else:
                                         with open(path + cpu +"/" + i + "/" + "name.csv",'a+') as f:
                                                 f.write("uz je vytvoren")
+
+
+        # def termin_apk(self,algo, data, save):
+        #         print("termin_apk")
+        #         print(algo)
+        #         print(data)
+        #         print(save)
+        #         #self.wc = True
+        #         self.algor = algo
+        #         self.data_path = data
+        #         self.save_path = save
+        #         self.save_path_name = self.save_path + "/name.csv"
+        #         self.Data_path_find()
+        #         self.Save_file("", "")
+        #         self.folden()
+        #         self.Check_algo()
 

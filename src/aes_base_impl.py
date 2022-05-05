@@ -2,6 +2,7 @@
 import random
 import string
 import time
+import threading
 
 
 ##### https://sites.math.washington.edu/~morrow/336_12/papers/juan.pdf
@@ -10,6 +11,7 @@ import time
 #invers
 #### https://arxiv.org/pdf/1209.3061.pdf
 #### https://sciresol.s3.us-east-2.amazonaws.com/IJST/Articles/2015/Issue-35/Article79.pdf
+#### https://medium.com/codex/aes-how-the-most-advanced-encryption-actually-works-b6341c44edb9
 
 substitut_box = [
     0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,

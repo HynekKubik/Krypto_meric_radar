@@ -42,6 +42,7 @@ class Window(QtWidgets.QDialog):
 
         #self.typeButton = QtWidgets.QPushButton('Scatter plot')
         self.plotType = 0
+        self.sec = 0
         #self.typeButton.setFixedWidth(50)
         #self.typeButton.clicked.connect(self.changeType)
 
@@ -74,23 +75,39 @@ class Window(QtWidgets.QDialog):
 
         # set the layout
         layout = QtWidgets.QVBoxLayout()
+        cpu = ownData["cpu"]
+        self.combo_cpu = QtWidgets.QComboBox(self)
+        self.combo_cpu.addItem("Choose CPU")
+        CPU = []
+        for i in cpu:
+            if not i in CPU:
+                CPU.append(i)
+        if len(CPU) > 1:
+            for i in CPU:
+                self.combo_cpu.addItem(i)
+                self.cpu = True
+        else:
+            self.cpu = False
+            self.combo_cpu.setEnabled(False)
+        print("cpu")
+        print(CPU)
+        print(cpu)
 
-
-
-
+        self.combo_cpu.activated.connect(self.combo_action)
 
 
 
 
 
         hlayout2 = QtWidgets.QHBoxLayout()
+        hlayout2.addWidget(self.combo_cpu)
 
         #self.addButton.setFixedWidth(130)
         #hlayout2.addWidget(self.combo_algo)
         #hlayout2.addWidget(self.addButton)
         #hlayout2.setAlignment(QtCore.Qt.AlignRight)
 
-        #layout.addLayout(hlayout2)
+        layout.addLayout(hlayout2)
 
 
 
@@ -124,15 +141,18 @@ class Window(QtWidgets.QDialog):
         # #self.fontSize.valueChanged.connect(self.fontSizeChanged)
         # self.fontSize.setEnabled(False)
         #
-        # hlayout = QtWidgets.QHBoxLayout()
+        self.typeButton = QtWidgets.QPushButton('Avg b per s')
+        # self.typeButton.setFixedWidth(50)
+        self.typeButton.clicked.connect(self.changeType)
+        hlayout = QtWidgets.QHBoxLayout()
         #
         #
-        # hlayout.addWidget(labelFontsize)
+        hlayout.addWidget(self.typeButton)
         # hlayout.addWidget(self.fontSize)
         #hlayout.addWidget(labelDotsize)
         #hlayout.addWidget(self.dotSizeSpinBox)
         #hlayout.addWidget(self.typeButton)
-        # layout.addLayout(hlayout)
+        layout.addLayout(hlayout)
 
 
 
@@ -148,15 +168,38 @@ class Window(QtWidgets.QDialog):
         self.data = {"parameter" : [], "val" : []}
         print("samples konec")
         self.canvas.draw()
-        self.load_file()
+
         print("draw")
 
     # def fontSizeChanged(self):
     #     if self.data:
     #         self.plot_bar()
 
+    def changeType(self):
+        self.data["parameter"] = []
+        self.data["val"] = []
+        self.legenda = []
+        self.ax.clear()
+        self.plotType = not self.plotType
+        if self.plotType:
+            self.typeButton.setText('Avg b per s')
+            self.sec = True
+        else:
+            self.typeButton.setText('Avg s per b')
+            self.sec = False
+
+        self.load_file()
+
+    def combo_action(self):
+        self.data["parameter"] = []
+        self.data["val"] = []
+        self.legenda = []
+        self.ax.clear()
+        self.load_file()
+
     def load_file(self):
         path = str(self.ownData["path"])
+        cpu = self.combo_cpu.currentText()
         data = []
         algo = []
         #self.fontSize.setEnabled(True)
@@ -164,12 +207,16 @@ class Window(QtWidgets.QDialog):
         if csv_file:
             reading = True
         for line in csv_file:
-            if "#" in line and reading:
+            if cpu in line:
+                cpu_bool = True
+            if "cpuinfo " in line and not cpu in line:
+                cpu_bool = False
+            if "#" in line and reading and cpu_bool:
                 str_prev = line
                 size = line.split(";")[-1].strip("\n")
                 size = float(size.split("[")[0])
                 continue
-            if ";" in line and "#" in str_prev and "[" in str_prev:
+            if cpu_bool and ";" in line and "#" in str_prev and "[" in str_prev :
                 line = line.split(";")
                 #if parameter == line[0]:
                 parameter = line[0]
@@ -208,8 +255,11 @@ class Window(QtWidgets.QDialog):
                 if i == j[0]:
                     val =  val + j[1]
                     num = num + 1
+            if self.sec:
 
-            avg = val/num
+                avg = num / val
+            else:
+                avg = val / num
             self.data["parameter"].append(i)
             self.data["val"].append(avg)
         self.plot_bar()
@@ -218,12 +268,23 @@ class Window(QtWidgets.QDialog):
     def plot_bar(self):
         x = self.data["parameter"]
         y = self.data["val"]
+        print("x")
+        print(x)
+        print("y")
+        print(y)
         for i in range(len(x)):
             self.ax.bar(x[i], y[i])
         #if self.data:
             #self.ax.set_xlabel(x, fontsize=self.fontSize.value())
             #self.ax.set_ylabel(x, fontsize=self.fontSize.value())
-        self.ax.set_ylabel("avg bytes per secund")#,fontsize = fontSize.value())
+        if self.sec:
+            self.ax.set_ylabel("avg secund per bytes ")
+            self.setWindowTitle("Average second per bytes")
+        else:
+            self.ax.set_ylabel("avg bytes per secund")
+            self.setWindowTitle("Average bytes per second")
+        #,fontsize = fontSize.value())
+        self.canvas.draw()
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)

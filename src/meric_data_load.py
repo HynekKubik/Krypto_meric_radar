@@ -21,7 +21,7 @@ from src.rsa_aes_file import *
 from src.aes_low_pycrypto import *
 from src.DES3 import *
 from src.aes_base_impl import *
-from src.aes_c.aes import *
+from src.aes_c.aes_c.aes import *
 from PIL import Image, ImageFont, ImageDraw
 from os import walk
 from os import stat, remove
@@ -45,6 +45,7 @@ class Measure:
                 self.data_path = dat["root_path_data"]
                 self.save_path = dat["save_path"]
                 self.save_path_name = self.save_path + "/name.csv"
+                self.model = ""
                 #self.file_path = []
         #def Print_meric(self, data):
                 #print("meric_aaaaaaa")
@@ -73,32 +74,75 @@ class Measure:
                         a = i.split(";")[0]
                         if a == "SHA256":
                                 print(a)
+                                start = time.time()
                                 self.SHA256()
+                                end = time.time()
+                                realtime = end - start
+                                self.time_save(a,start,realtime,end)
                         if a == "3DES":
                                 print(a)
+                                start = time.time()
                                 self.DES3()
+                                end = time.time()
+                                realtime = end - start
+                                self.time_save(a,start,realtime,end)
                         if "MD5" in a:
                                 print(a)
+                                start = time.time()
                                 self.MD5()
+                                end = time.time()
+                                realtime = end - start
+                                self.time_save(a,start,realtime,end)
                         if a == "AES" :
                                 print(a)
+                                start = time.time()
                                 self.AES()
+                                end = time.time()
+                                realtime = end - start
+                                self.time_save(a,start,realtime,end)
                         if a == "AES_pyCrypto_low" :
                                 print(a)
+                                start = time.time()
                                 self.aes_low()
+                                end = time.time()
+                                realtime = end - start
+                                self.time_save(a,start,realtime,end)
+
                         if a == "AES_basic_implamantion":
                                 print(a)
+                                start = time.time()
                                 self.AESbasicimplamantion()
+                                end = time.time()
+                                realtime = end - start
+                                self.time_save(a,start,realtime,end)
                         if a == "RSA":
                                 print(a)
+                                start = time.time()
                                 self.RSA()
+                                end = time.time()
+                                realtime = end - start
+                                self.time_save(a,start,realtime,end)
                         if a == "ComboAESRSA":
                                 print(a)
+                                start = time.time()
                                 self.CombinationAesRsa()
+                                end = time.time()
+                                realtime = end - start
+                                self.time_save(a,start,realtime,end)
                         if a == "AES_optimalizations_cypton":
+                                print(a)
+                                start = time.time()
                                 self.AES_optimalization()
+                                end = time.time()
+                                realtime = end - start
+                                self.time_save(a,start,realtime,end)
                         if a == "AES_base_impl_py":
+                                print(a)
+                                start = time.time()
                                 self.AES_base_impl_py()
+                                end = time.time()
+                                realtime = end - start
+                                self.time_save(a,start,realtime,end)
 
         def AES_base_impl_py(self):
                 for i in self.file_path:
@@ -272,13 +316,25 @@ class Measure:
                         data = "SHA256; " + str(real_time)
                         self.Save_file(string, data)
 
+        def time_save(self,id,start, time, end):
+                path = self.save_path + "/" + self.model + "/timestamp.csv"
+                with open(path,'a+') as myfile:
+                        timestamp = "Timestamp ; " + str(start)
+                        runtime = "Runtime of function[s] ; " + str(time)
+                        id_algo = "# id ; " + id
+                        myfile.write(id_algo)
+                        myfile.write("\n")
+                        myfile.write(timestamp)
+                        myfile.write("\n")
+                        myfile.write(runtime)
+                        myfile.write("\n")
 
         def Save_file(self,string_save_id,data):
                 #self.save_path = self.save_path + "name.csv"
                 #f =open(self.save_path,"w")
                 #f.close()
                 #self.wc = True
-                cpu = self.CpuName()
+
                 #with open("/home/hynek/Dokumenty/vysledkytest/names.csv",'a+')as mf:
                  #       print("ahoj")
                 with open(self.save_path_name,'a+') as myfile:
@@ -289,6 +345,7 @@ class Measure:
                         #myfile.write(cpu + "Start")
                         #myfile.write("\n")
                         if self.wc:
+                                cpu = self.CpuName()
                                 myfile.write(cpu)
                                 myfile.write("\n")
                                 self.wc = False
@@ -313,6 +370,7 @@ class Measure:
                                                 model = model_name
                                                 model = model.strip()
                                                 model = " cpuinfo " + model
+                                                self.model = model
                                                 break
                 return model
         def folden(self):

@@ -79,16 +79,19 @@ class Window(QtWidgets.QDialog):
         self.combo_cpu = QtWidgets.QComboBox(self)
         self.combo_cpu.addItem("Choose CPU")
         CPU = []
+        self.proc = ""
         for i in cpu:
             if not i in CPU:
                 CPU.append(i)
-        if len(CPU) > 1:
-            for i in CPU:
+                proc = i
                 self.combo_cpu.addItem(i)
-                self.cpu = True
-        else:
-            self.cpu = False
-            self.combo_cpu.setEnabled(False)
+        # if len(CPU) > 1:
+        #     for i in CPU:
+        #         self.combo_cpu.addItem(i)
+        #         self.cpu = True
+        # else:
+        #     self.cpu = False
+        #     self.combo_cpu.setEnabled(False)
         print("cpu")
         print(CPU)
         print(cpu)

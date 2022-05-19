@@ -1,3 +1,150 @@
+# id ; AES
+Timestamp ; 1652898683.5521822
+Runtime of function[s] ; 0.38215208053588867
+# id ; AES_optimalizations_cypton
+Timestamp ; 1652898683.934517
+Runtime of function[s] ; 0.036483049392700195
+# id ; AES_base_impl_py
+Timestamp ; 1652898683.9710548
+Runtime of function[s] ; 0.09730195999145508
+# id ; 3DES
+Timestamp ; 1652898684.0684736
+Runtime of function[s] ; 0.008395910263061523
+# id ; AES
+Timestamp ; 1652898774.1356122
+Runtime of function[s] ; 0.4019052982330322
+# id ; AES_optimalizations_cypton
+Timestamp ; 1652898774.537587
+Runtime of function[s] ; 0.037366628646850586
+# id ; AES_base_impl_py
+Timestamp ; 1652898774.5750384
+Runtime of function[s] ; 0.09655499458312988
+# id ; 3DES
+Timestamp ; 1652898774.6716404
+Runtime of function[s] ; 0.008339166641235352
+# id ; AES
+Timestamp ; 1652898812.3143334
+Runtime of function[s] ; 0.40831542015075684
+# id ; AES_optimalizations_cypton
+Timestamp ; 1652898812.7227142
+Runtime of function[s] ; 0.03786778450012207
+# id ; AES_base_impl_py
+Timestamp ; 1652898812.7606483
+Runtime of function[s] ; 0.09598588943481445
+# id ; 3DES
+Timestamp ; 1652898812.856683
+Runtime of function[s] ; 0.008427143096923828
 # id ; SHA256
-Timestamp ; 1652870003.8066692
-Runtime of function[s] ; 0.010541915893554688
+Timestamp ; 1652898812.8651567
+Runtime of function[s] ; 0.0002243518829345703
+# id ; MD5
+Timestamp ; 1652898812.865426
+Runtime of function[s] ; 0.0002422332763671875
+# id ; AES
+Timestamp ; 1652899022.879306
+Runtime of function[s] ; 0.28356242179870605
+# id ; AES_optimalizations_cypton
+Timestamp ; 1652899023.162979
+Runtime of function[s] ; 0.035062551498413086
+# id ; AES_base_impl_py
+Timestamp ; 1652899023.198111
+Runtime of function[s] ; 0.09443831443786621
+# id ; 3DES
+Timestamp ; 1652899023.2926023
+Runtime of function[s] ; 0.006499052047729492
+# id ; SHA256
+Timestamp ; 1652899023.2991617
+Runtime of function[s] ; 0.00021839141845703125
+# id ; MD5
+Timestamp ; 1652899023.2994254
+Runtime of function[s] ; 0.00015807151794433594
+# id ; AES
+Timestamp ; 1652899095.1708753
+Runtime of function[s] ; 0.17692112922668457
+# id ; AES_optimalizations_cypton
+Timestamp ; 1652899095.347914
+Runtime of function[s] ; 0.0471646785736084
+# id ; AES_base_impl_py
+Timestamp ; 1652899095.3951566
+Runtime of function[s] ; 0.10168123245239258
+# id ; 3DES
+Timestamp ; 1652899095.4969158
+Runtime of function[s] ; 0.00754547119140625
+# id ; SHA256
+Timestamp ; 1652899095.5046425
+Runtime of function[s] ; 0.0002713203430175781
+# id ; MD5
+Timestamp ; 1652899095.504995
+Runtime of function[s] ; 0.00012493133544921875
+# id ; AES
+Timestamp ; 1652899159.911246
+Runtime of function[s] ; 66.3921549320221
+# id ; AES_optimalizations_cypton
+Timestamp ; 1652899226.3034544
+Runtime of function[s] ; 30.39533567428589
+# id ; AES_base_impl_py
+Timestamp ; 1652899256.6988792
+Runtime of function[s] ; 83.8443169593811
+# id ; 3DES
+Timestamp ; 1652899340.543273
+Runtime of function[s] ; 0.25118374824523926
+# id ; SHA256
+Timestamp ; 1652899340.7945569
+Runtime of function[s] ; 0.0023300647735595703
+# id ; MD5
+Timestamp ; 1652899340.7969344
+Runtime of function[s] ; 0.0037343502044677734
+# id ; AES
+Timestamp ; 1652901699.5394602
+Runtime of function[s] ; 2.4125916957855225
+# id ; AES_optimalizations_cypton
+Timestamp ; 1652901701.9521093
+Runtime of function[s] ; 1.0141277313232422
+# id ; AES_base_impl_py
+Timestamp ; 1652901702.9663632
+Runtime of function[s] ; 2.800783634185791
+# id ; 3DES
+Timestamp ; 1652901705.7672236
+Runtime of function[s] ; 0.015769243240356445
+# id ; SHA256
+Timestamp ; 1652901705.7831073
+Runtime of function[s] ; 0.0003199577331542969
+# id ; MD5
+Timestamp ; 1652901705.7834687
+Runtime of function[s] ; 0.0003876686096191406
+# id ; AES_basic_implamantion
+Timestamp ; 1652901705.7839212
+Runtime of function[s] ; 0.002511739730834961
+# id ; ComboAESRSA
+Timestamp ; 1652901705.7864933
+Runtime of function[s] ; 1.459871530532837
+# id ; AES_pyCrypto_low
+Timestamp ; 1652901707.24641
+Runtime of function[s] ; 0.0038378238677978516
+# id ; AES
+Timestamp ; 1652903240.659016
+Runtime of function[s] ; 5007.11949467659
+# id ; AES_optimalizations_cypton
+Timestamp ; 1652908247.7786078
+Runtime of function[s] ; 2112.4733834266663
+# id ; AES_base_impl_py
+Timestamp ; 1652910360.2520607
+Runtime of function[s] ; 5775.593490123749
+# id ; 3DES
+Timestamp ; 1652916135.8457172
+Runtime of function[s] ; 15.486073732376099
+# id ; SHA256
+Timestamp ; 1652916151.3318412
+Runtime of function[s] ; 0.12034082412719727
+# id ; MD5
+Timestamp ; 1652916151.4522386
+Runtime of function[s] ; 0.211883544921875
+# id ; AES_basic_implamantion
+Timestamp ; 1652916151.664171
+Runtime of function[s] ; 1.0189855098724365
+# id ; ComboAESRSA
+Timestamp ; 1652916152.6832144
+Runtime of function[s] ; 122.39806079864502
+# id ; AES_pyCrypto_low
+Timestamp ; 1652916275.0813224
+Runtime of function[s] ; 1.2588908672332764

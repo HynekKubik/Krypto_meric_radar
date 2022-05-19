@@ -16,13 +16,13 @@ class RunTerm:
 
             #cprint(figlet_format('KMR', font='doh'))
             self.data_meric = {
-                "selected_algor": ["AES;", "AES_optimalizations_cypton;", "AES_base_impl_py;", "3DES;", "RSA;",
+                "selected_algor": ["AES;", "AES_optimalizations_cypton;", "AES_base_impl_py;", "3DES;",
                                    "SHA256;True", "MD5;",
                                    "AES_basic_implamantion;", "ComboAESRSA;", "AES_pyCrypto_low;"], "y": [],
                 "root_path_data": "", "save_path": ""}
 #toto jenom testovaci  #self.data_meric = {"selected_algor": ["AES_optimalizations_cypton;"], "y": ["TIME [s]"],"root_path_data": "", "save_path": ""}
-            #self.data_meric = {"selected_algor": ["SHA256;"], "y": ["TIME [s]"],
-             #                  "root_path_data": "", "save_path": ""}
+            # self.data_meric = {"selected_algor": ["SHA256;"], "y": ["TIME [s]"],
+            #                   "root_path_data": "", "save_path": ""}
 
             # print(
             #     'Welcome to the terminal version of the application Krypto_meric_radar. Please follow the instructions to start correctly.')
@@ -32,7 +32,8 @@ class RunTerm:
             # print('Enter Data path')
             # x = input()
             pwd = os.getcwd()
-            x = pwd+"/../Krypto_meric_radar/data/testingdata"
+            x = pwd+"/../Krypto_meric_radar/data/testing_data"
+            #x = "/home/hynek/Dokumenty/lt"
             #x = pwd + "/../lt"
             self.data_meric["root_path_data"] = x
             # print("Second step")

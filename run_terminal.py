@@ -16,7 +16,7 @@ class RunTerm:
 
             #cprint(figlet_format('KMR', font='doh'))
             self.data_meric = {
-                "selected_algor": ["AES;", "AES_optimalizations_cypton;", "AES_base_impl_py;", "3DES;",
+                "selected_algor": ["AES;", "AES_optimalizations_cypton;", "AES_base_impl_py;",
                                    "SHA256;True", "MD5;",
                                    "AES_basic_implamantion;", "ComboAESRSA;", "AES_pyCrypto_low;"], "y": [],
                 "root_path_data": "", "save_path": ""}

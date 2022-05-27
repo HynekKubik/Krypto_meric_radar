@@ -270,12 +270,13 @@ class Window(QtWidgets.QDialog):
         print(y)
         for i in range(len(x)):
             self.ax.bar(x[i], y[i])
+            self.ax.tick_params(axis='x', labelsize=18, labelrotation=65)
         #if self.data:
             #self.ax.set_xlabel(x, fontsize=self.fontSize.value())
             #self.ax.set_ylabel(x, fontsize=self.fontSize.value())
 
 
-        self.ax.set_ylabel("avg bytes per secund")
+        self.ax.set_ylabel("avg bytes per second", fontsize=18)
         self.setWindowTitle("Average bytes per second")
         #,fontsize = fontSize.value())
         self.canvas.draw()

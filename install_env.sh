@@ -19,7 +19,8 @@ source $ENV_DIR/bin/activate
 
 python3 -m pip install --upgrade pip
 python3 -m pip install --upgrade setuptools
-for mod in scikit-learn matplotlib packaging seaborn enum34==1.1.6 pwlf h5py PyQt5 hashlib times python-csv glob pycrypto pytest-warnings argparse pycryptodomex pycryptodome rsa os-sys pycrypto
+
+for mod in scikit-learn matplotlib packaging seaborn enum34==1.1.6 pwlf h5py PyQt5 hashlib times python-csv glob pycrypto pytest-warnings argparse pycryptodomex pycryptodome rsa os-sys pycrypto cython3
 do
         python3 -m pip install $mod
 done

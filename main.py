@@ -95,7 +95,7 @@ class Window2(QMainWindow):
         #print("ahoj")
         if len(self.data_meric["y"])==0:
             self.Error_msg("missing y label",
-                           "Missing y label.\n YOU MUST TO SELECT Y LABEL IN LEFT SELECTION")
+                           "Missing y label.\n YOU MUST TO SELECT Y LABEL IN RIGHT SELECTION")
         elif len(self.data_meric["selected_algor"])==0:
             self.Error_msg("missing atribite in configure Menu algorithm",
                            "Missing CRYPTO algoritm label.\n YOU MUST TO CLICT ON configure Menu algorithm AND SELECT FROM LIST")
@@ -112,11 +112,12 @@ class Window2(QMainWindow):
             p = Measure(self, self.data_meric)
             self.End_msg("The end of measurement",
                               "Now you can close all windows.")
-        print("meric_data_load")
+            #self.window()
+            print("meric_data_load")
         # text = "ahoj"
 
 
-        self.window4()
+
 
 
     def End_msg(self, text, mess):
@@ -234,7 +235,7 @@ class Window3(QMainWindow):                           # <===
         self.setGeometry(300, 300, 320, 280)
         self.pushButton_plot = QPushButton("Plot", self)
         self.pushButton_plot.setGeometry(10, 10, 300, 80)
-        self.pushButton_bar_avrg = QPushButton("Average byte per secund", self)
+        self.pushButton_bar_avrg = QPushButton("Average byte per second", self)
         self.pushButton_bar_avrg.setGeometry(10, 100, 300, 80)
         self.pushButton_bar_avrg_algo = QPushButton("Average ", self)
         self.pushButton_bar_avrg_algo.setGeometry(10, 190, 300, 80)

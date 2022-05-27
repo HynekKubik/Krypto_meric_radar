@@ -28,7 +28,7 @@ class Window(QtWidgets.QDialog):
         self.ax = self.figure.add_axes([0.1, 0.25, 0.8, 0.7])  # left,bottom edge, width, height
         self.use_logscaleX = False
         self.use_logscaleY = False
-        self.setWindowTitle("Average bytes per second")
+        self.setWindowTitle("Average bytes per secund")
         self.scater_line = 0
         self.data = []
         self.legenda = []
@@ -277,15 +277,17 @@ class Window(QtWidgets.QDialog):
         print(y)
         for i in range(len(x)):
             self.ax.bar(x[i], y[i])
+            self.ax.tick_params(axis='x',  labelsize=18 ,labelrotation = 65)
+            self.ax.tick_params(axis='y', labelsize=18)
         #if self.data:
             #self.ax.set_xlabel(x, fontsize=self.fontSize.value())
             #self.ax.set_ylabel(x, fontsize=self.fontSize.value())
         if self.sec:
-            self.ax.set_ylabel("avg secund per bytes ")
-            self.setWindowTitle("Average second per bytes")
+            self.ax.set_ylabel("avg secund per bytes ", fontsize=18)
+            self.setWindowTitle("Average secund per bytes")
         else:
-            self.ax.set_ylabel("avg bytes per secund")
-            self.setWindowTitle("Average bytes per second")
+            self.ax.set_ylabel("avg bytes per secund", fontsize=18)
+            self.setWindowTitle("Average bytes per secund")
         #,fontsize = fontSize.value())
         self.canvas.draw()
 

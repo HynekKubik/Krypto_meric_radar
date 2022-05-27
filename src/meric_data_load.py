@@ -22,7 +22,7 @@ from src.aes_low_pycrypto import *
 from src.DES3 import *
 from src.aes_base_impl import *
 from src.aes_c.aes_c.aes import *
-from PIL import Image, ImageFont, ImageDraw
+#from PIL import Image, ImageFont, ImageDraw
 from os import walk
 from os import stat, remove
 # encryption/decryption buffer size - 64K
@@ -115,6 +115,7 @@ class Measure:
                                 end = time.time()
                                 realtime = end - start
                                 self.time_save(a,start,realtime,end)
+
                         if a == "RSA":
                                 print(a)
                                 start = time.time()
@@ -122,6 +123,7 @@ class Measure:
                                 end = time.time()
                                 realtime = end - start
                                 self.time_save(a,start,realtime,end)
+
                         if a == "ComboAESRSA":
                                 print(a)
                                 start = time.time()
@@ -129,6 +131,7 @@ class Measure:
                                 end = time.time()
                                 realtime = end - start
                                 self.time_save(a,start,realtime,end)
+
                         if a == "AES_optimalizations_cypton":
                                 print(a)
                                 start = time.time()
@@ -136,6 +139,7 @@ class Measure:
                                 end = time.time()
                                 realtime = end - start
                                 self.time_save(a,start,realtime,end)
+
                         if a == "AES_base_impl_py":
                                 print(a)
                                 start = time.time()
